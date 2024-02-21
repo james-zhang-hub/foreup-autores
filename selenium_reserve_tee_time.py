@@ -8,8 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
-config = dotenv_values(".env")
-
 
 def run():
     print('Starting Chrome driver')

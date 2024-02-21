@@ -3,6 +3,7 @@ import os
 from dotenv import dotenv_values
 from rich import print
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -16,7 +17,11 @@ def run():
     chrome_options.add_argument("--no-sandbox")
 
     print('Starting Chrome driver')
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    chrome_options = Options()
+    chrome_options.binary_location = os.environ["GOOGLE_CHROME_BIN"]
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(executable_path=os.environ["CHROMEDRIVER_PATH"], chrome_options=chrome_options)
     # open a browser window and go to the foreup login page
     print(f"Env URL: {os.environ["FOREUP_SOFTWARE_LOGIN_URL"]}")
     driver.get(os.environ["FOREUP_SOFTWARE_LOGIN_URL"])

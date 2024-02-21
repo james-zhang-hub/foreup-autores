@@ -10,6 +10,7 @@ config = dotenv_values(".env")
 
 
 def run():
+    print('Starting Chrome driver')
     driver = webdriver.Chrome(ChromeDriverManager().install())
 
     # open a browser window and go to the foreup login page
@@ -56,7 +57,7 @@ def run():
 
     # click on first available tee time
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "times"))
+        EC.presence_of_element_located((By.XPATH, "//*[@class='time time-tile']"))
     )
     first_tee_time = driver.find_element(By.XPATH, "//*[@class='time time-tile']")
 
@@ -66,19 +67,18 @@ def run():
         f"Tee Time: {tee_time_info[0]} for {tee_time_info[1]} holes "
         f"with a max of {tee_time_info[2]} players "
         f"and the cost is: {tee_time_info[3]}\n\n"
-
     )
 
     first_tee_time.click()
 
     print("Attempting to book tee time")
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "modal"))
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".btn-success"))
     )
     driver.find_element(By.CSS_SELECTOR, ".btn-success").click()
 
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "page"))
+        EC.url_contains('confirmation')
     )
     print("Successfully booked tee time!")
     driver.close()

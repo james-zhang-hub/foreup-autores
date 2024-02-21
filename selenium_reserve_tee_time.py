@@ -1,3 +1,5 @@
+import os
+
 from dotenv import dotenv_values
 from rich import print
 from selenium import webdriver
@@ -14,11 +16,11 @@ def run():
     driver = webdriver.Chrome(ChromeDriverManager().install())
 
     # open a browser window and go to the foreup login page
-    driver.get(config["FOREUP_SOFTWARE_LOGIN_URL"])
+    driver.get(os.environ["FOREUP_SOFTWARE_LOGIN_URL"])
 
     # fill out the email input field
-    driver.find_element(By.XPATH, '//*[@id="login_email"]').send_keys(config["FOREUP_USERNAME"])
-    driver.find_element(By.XPATH, '//*[@id="login_password"]').send_keys(config["FOREUP_PASSWORD"])
+    driver.find_element(By.XPATH, '//*[@id="login_email"]').send_keys(os.environ["FOREUP_USERNAME"])
+    driver.find_element(By.XPATH, '//*[@id="login_password"]').send_keys(os.environ["FOREUP_PASSWORD"])
 
     # click the form log in button
     print("Attempting to log in")
@@ -29,7 +31,7 @@ def run():
         EC.presence_of_element_located((By.CSS_SELECTOR, "#reservations-tab"))
     )
     print("Successfully logged in")
-    driver.get(config["FOREUP_SOFTWARE_TEETIMES_URL"])
+    driver.get(os.environ["FOREUP_SOFTWARE_TEETIMES_URL"])
 
     # click on Resident button
     WebDriverWait(driver, 10).until(

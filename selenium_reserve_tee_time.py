@@ -18,9 +18,13 @@ def run():
     print('Starting Chrome driver')
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     # open a browser window and go to the foreup login page
+    print(f"Env URL: {os.environ["FOREUP_SOFTWARE_LOGIN_URL"]}")
     driver.get(os.environ["FOREUP_SOFTWARE_LOGIN_URL"])
 
     # fill out the email input field
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '//*[@id="login_email"]'))
+    )
     driver.find_element(By.XPATH, '//*[@id="login_email"]').send_keys(os.environ["FOREUP_USERNAME"])
     driver.find_element(By.XPATH, '//*[@id="login_password"]').send_keys(os.environ["FOREUP_PASSWORD"])
 
